@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ActionCallback
 {
-    void actionDone(SSAction source);
+	void actionDone(SSAction source);
 }

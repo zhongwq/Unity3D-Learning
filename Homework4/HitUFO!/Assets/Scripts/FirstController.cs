@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FirstController : MonoBehaviour, ISceneController {
-    GameDirector gameDirector;
-    FirstSceneActionManager actionManager;
-    public UFOFactory ufoFactory;
+	GameDirector gameDirector;
+	FirstSceneActionManager actionManager;
+	public UFOFactory ufoFactory;
 	ExplosionFactory explosionFactory;
 
-    ScoreRecorder scoreRecorder;
-    TimerController timerController;
-    DifficultyController difficulty;
+	ScoreRecorder scoreRecorder;
+	TimerController timerController;
+	DifficultyController difficulty;
 
 	int gameStatus;
 	int round = 1;
@@ -23,22 +23,22 @@ public class FirstController : MonoBehaviour, ISceneController {
 	GUIStyle buttonStyle;
 	Text roundText;
 
-    void Awake()
-    {
-        gameDirector = GameDirector.getInstance();
-        gameDirector.currentSceneController = this;
-        actionManager = gameObject.AddComponent<FirstSceneActionManager>();
-        ufoFactory = gameObject.AddComponent<UFOFactory>();
+	void Awake()
+	{
+		gameDirector = GameDirector.getInstance();
+		gameDirector.currentSceneController = this;
+		actionManager = gameObject.AddComponent<FirstSceneActionManager>();
+		ufoFactory = gameObject.AddComponent<UFOFactory>();
 		explosionFactory = gameObject.AddComponent<ExplosionFactory> ();
-        difficulty = DifficultyController.getInstance();
-        timerController = gameObject.AddComponent<TimerController>();
-        scoreRecorder = ScoreRecorder.getInstance();
+		difficulty = DifficultyController.getInstance();
+		timerController = gameObject.AddComponent<TimerController>();
+		scoreRecorder = ScoreRecorder.getInstance();
 
-        loadResources();
-    }
+		loadResources();
+	}
 
-    public void Start()
-    {
+	public void Start()
+	{
 		gameStatus = 0;
 		difficulty.setDifficulty(0);
 		round = 0;
@@ -51,7 +51,7 @@ public class FirstController : MonoBehaviour, ISceneController {
 		buttonStyle = new GUIStyle("button");
 		buttonStyle.fontSize = 30;
 		running = false;
-    }
+	}
 
 	void OnGUI() 
 	{
@@ -74,8 +74,8 @@ public class FirstController : MonoBehaviour, ISceneController {
 		}
 	}
 
-    void Update()
-    {
+	void Update()
+	{
 		if (running && gameStatus == 1)
 		{
 			fpsCount++;
@@ -103,21 +103,21 @@ public class FirstController : MonoBehaviour, ISceneController {
 			if (Input.GetKeyDown ("enter") || Input.GetKeyDown ("return"))
 				replay ();
 		}
-    }
+	}
 
-    public void loadResources()
-    {
-        Instantiate(Resources.Load("Prefabs/Land"));
-    }
+	public void loadResources()
+	{
+		Instantiate(Resources.Load("Prefabs/Land"));
+	}
 
-    void startRound()
-    {
+	void startRound()
+	{
 		running = true;
 		roundText.text = "" + round++;
 		emitNum = 0;
 		scoreInRound = 0;
 		fpsCount = 0;
-    }
+	}
 
 	void emitUFO()
 	{
@@ -126,14 +126,14 @@ public class FirstController : MonoBehaviour, ISceneController {
 		actionManager.addActionToUFO(ufoCtrl.GetObject(), difficulty.getUFOAttributes().speed);
 	}
 
-    public void shootUFO(UFOController ufo)
-    {
+	public void shootUFO(UFOController ufo)
+	{
 		scoreInRound++;
-        scoreRecorder.record(difficulty.getDifficulty());
-        actionManager.removeActionByObj(ufo.GetObject());
+		scoreRecorder.record(difficulty.getDifficulty());
+		actionManager.removeActionByObj(ufo.GetObject());
 		explosionFactory.explode (ufo.GetObject ().transform.position);
-        ufoFactory.recycle(ufo);
-    }
+		ufoFactory.recycle(ufo);
+	}
 
 	public void shootGround(Vector3 pos) 
 	{

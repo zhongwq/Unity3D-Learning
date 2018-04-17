@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ISceneController
 {
-    void loadResources();
+	void loadResources();
 }
 
 //interface of Scene

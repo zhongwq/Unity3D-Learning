@@ -4,39 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FirstController : MonoBehaviour, ISceneController {
-    GameDirector gameDirector;
-    FirstSceneActionManager actionManager;
-    UFOFactory ufoFactory;
+	GameDirector gameDirector;
+	FirstSceneActionManager actionManager;
+	UFOFactory ufoFactory;
 	ExplosionFactory explosionFactory;
 	FirstCharacterController firstCharacterController;
 
-    ScoreRecorder scoreRecorder;
-    TimerController timerController;
-    DifficultyController difficulty;
+	ScoreRecorder scoreRecorder;
+	TimerController timerController;
+	DifficultyController difficulty;
 
 	int gameStatus;
-    float playTime = 0;
-    bool gaming = false;
+	float playTime = 0;
+	bool gaming = false;
 	int round = 1;
 	GUIStyle headerStyle;
 	Text roundText;
 
-    void Awake()
-    {
-        gameDirector = GameDirector.getInstance();
-        gameDirector.currentSceneController = this;
-        actionManager = gameObject.AddComponent<FirstSceneActionManager>();
-        ufoFactory = gameObject.AddComponent<UFOFactory>();
+	void Awake()
+	{
+		gameDirector = GameDirector.getInstance();
+		gameDirector.currentSceneController = this;
+		actionManager = gameObject.AddComponent<FirstSceneActionManager>();
+		ufoFactory = gameObject.AddComponent<UFOFactory>();
 		explosionFactory = gameObject.AddComponent<ExplosionFactory> ();
-        difficulty = DifficultyController.getInstance();
-        timerController = gameObject.AddComponent<TimerController>();
-        scoreRecorder = ScoreRecorder.getInstance();
+		difficulty = DifficultyController.getInstance();
+		timerController = gameObject.AddComponent<TimerController>();
+		scoreRecorder = ScoreRecorder.getInstance();
 
-        loadResources();
-    }
+		loadResources();
+	}
 
-    public void Start()
-    {
+	public void Start()
+	{
 		gameStatus = 0;
 		difficulty.setDifficulty(0);
 		round = 1;
@@ -46,7 +46,7 @@ public class FirstController : MonoBehaviour, ISceneController {
 		headerStyle.fontSize = 40;
 		headerStyle.alignment = TextAnchor.MiddleCenter;
 		startRound ();
-    }
+	}
 
 	void OnGUI() 
 	{
@@ -57,90 +57,90 @@ public class FirstController : MonoBehaviour, ISceneController {
 		}
 	}
 
-    void Update()
-    {
+	void Update()
+	{
 		if (gameStatus == 0)
 		{
- 	        if (gaming == true)
-	        {
-	            playTime += Time.deltaTime;
-	        }
+			if (gaming == true)
+			{
+				playTime += Time.deltaTime;
+			}
 
-	        if (gaming && checkNoUFO())
-	        {
+			if (gaming && checkNoUFO())
+			{
 				if (round == 10) 
 				{
 					gameStatus = 1;
 					gaming = false;
 					return;
 				}
-	            gaming = false;
-	            Invoke("startRound", 3);
-	            timerController.setTime(3);
-	            difficulty.setDifficultyByScore(scoreRecorder.getScore());
-	        }
-	        else if (gaming && timeout())
-	        {
+				gaming = false;
+				Invoke("startRound", 3);
+				timerController.setTime(3);
+				difficulty.setDifficultyByScore(scoreRecorder.getScore());
+			}
+			else if (gaming && timeout())
+			{
 				if (round == 10) 
 				{
 					gameStatus = 1;
 					gaming = false;
 					return;
 				}
-	            gaming = false;
-	            foreach (UFOController ufo in ufoFactory.GetRunningList())
-	            {
-	                actionManager.removeActionByObj(ufo.GetObject());
-	            }
-	            ufoFactory.recycleAll();
-	            Invoke("startRound", 3);
-	            timerController.setTime(3);
-	            difficulty.setDifficultyByScore(scoreRecorder.getScore());
-	        }
+				gaming = false;
+				foreach (UFOController ufo in ufoFactory.GetRunningList())
+				{
+					actionManager.removeActionByObj(ufo.GetObject());
+				}
+				ufoFactory.recycleAll();
+				Invoke("startRound", 3);
+				timerController.setTime(3);
+				difficulty.setDifficultyByScore(scoreRecorder.getScore());
+			}
 		}
 		else
 		{
 			if (Input.GetKeyDown ("enter") || Input.GetKeyDown ("return"))
 				replay ();
 		}
-    }
+	}
 
-    public void loadResources()
-    {
+	public void loadResources()
+	{
 		firstCharacterController = new FirstCharacterController();
-        Instantiate(Resources.Load("Prefabs/Land"));
-    }
+		Instantiate(Resources.Load("Prefabs/Land"));
+	}
 
-    void startRound()
-    {
+	void startRound()
+	{
 		roundText.text = "" + round++;
-        gaming = true;
-        playTime = 0;
-        UFOController[] ufoCtrlArr = ufoFactory.initAll(difficulty.getUFOAttributes(), difficulty.UFONumber);
-        foreach (var ufo in ufoCtrlArr)
-        {
-            ufo.appear();
-        }
-        actionManager.addActionToUFOs(ufoCtrlArr, difficulty.getUFOAttributes().speed);
-    }
+		gaming = true;
+		playTime = 0;
+		UFOController[] ufoCtrlArr = ufoFactory.initAll(difficulty.getUFOAttributes(), difficulty.UFONumber);
+		foreach (var ufo in ufoCtrlArr)
+		{
+			ufo.appear();
+		}
+		actionManager.addActionToUFOs(ufoCtrlArr, difficulty.getUFOAttributes().speed);
+	}
 
-    bool timeout()
-    {
-        return (playTime > difficulty.currentSendInterval);
-    }
+	bool timeout()
+	{
+		return (playTime > difficulty.currentSendInterval);
+	}
 
-    bool checkNoUFO()
-    {
-        return ufoFactory.GetRunningList().Count == 0;
-    }
+	bool checkNoUFO()
+	{
+		return ufoFactory.GetRunningList().Count == 0;
+	}
 
-    public void shootUFO(UFOController ufo)
-    {
-        scoreRecorder.record(difficulty.getDifficulty());
-        actionManager.removeActionByObj(ufo.GetObject());
+	public void shootUFO(UFOController ufo)
+	{
+		scoreRecorder.record(difficulty.getDifficulty());
+		actionManager.removeActionByObj(ufo.GetObject());
 		explosionFactory.explode (ufo.GetObject ().transform.position);
-        ufoFactory.recycle(ufo);
-    }
+		ufoFactory.recycle(ufo);
+	}
 
 	public void shootGround(Vector3 pos) 
 	{
