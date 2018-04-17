@@ -14,9 +14,16 @@
 ### 作业实现
 本周的内容在有了之前MVC架构以及动作管理器的基础之上，其实本次作业的实现较为简单。按照之前的惯例，为了编程的条理性，我们先设计出我们这次作业的UML图
 
+#### 视频演示
+* [Hit UFO!](http://new-play.tudou.com/v/886361316.html?spm=a2hzp.8244740.0.0)
+* [Hit UFO! (With GUN)](http://new-play.tudou.com/v/886354731.html?spm=a2hzp.8244740.0.0)
+
 ---
 #### UML图
 
+![week6](https://lh3.googleusercontent.com/-WDA88p802Pg/WtXqkJ9wbNI/AAAAAAAAAGE/nAt63khQThY0V3pmiWKaZ62YADuab87ZACHMYCw/I/week6.png)
+
+> 其中FirstCharacterController类是为GUN版本创建的。
 
 ---
 
@@ -425,6 +432,10 @@ public class FirstController : MonoBehaviour, ISceneController {
 ```
 ---
 ### 游戏效果图
+![屏幕快照 2018-04-17 下午8.32.43](https://lh3.googleusercontent.com/-7TfSCbR2GtQ/WtXpqzeUWCI/AAAAAAAAAF4/Kf0d2rzCM0kammsJh_gUj2IGozBBUR1RgCHMYCw/I/%255BUNSET%255D)
+
+![屏幕快照 2018-04-17 下午8.33.09](https://lh3.googleusercontent.com/-uxqOdTXxGZE/WtXpoUfnvVI/AAAAAAAAAF0/NXUJLM53T1ExFylHgshTUEaCpC5QiYllgCHMYCw/I/%255BUNSET%255D)
+
 
 ---
 ### 总结
