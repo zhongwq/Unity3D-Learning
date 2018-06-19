@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="BigMap" size="50.000000 46.442760" />
+    <ImageTarget name="Map2" size="1.000000 0.928855" />
+    <ImageTarget name="Map" size="10.000000 13.333333" />
+    <ImageTarget name="test1" size="0.050000 0.030000" />
+  </Tracking>
+</QCARConfig>
